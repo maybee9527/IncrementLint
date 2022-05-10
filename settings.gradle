@@ -1,0 +1,6 @@
+rootProject.name='twl_lint'
+//include ':checks'
+//include ':library'
+include ':app'
+include ':lib'
+includeBuild("./plugins")

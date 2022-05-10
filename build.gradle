@@ -1,0 +1,58 @@
+buildscript {
+    ext {
+//        kotlinVersion = '1.6.10'
+//        kotlinVersion = '1.4.31'
+        // Current release: Bumblebee / AGP 7.1
+//        gradlePluginVersion = '7.0.4'
+//        lintVersion = '30.0.4'
+        // Upcoming lint target: Chipmunk / AGP 7.2
+        // gradlePluginVersion = '7.2.0'
+        // lintVersion = '30.2.0'
+    }
+
+    repositories {
+        maven { url uri("${rootDir}/.local") }
+        maven { url "https://maven.aliyun.com/nexus/content/groups/public" }
+        maven { url "https://maven.aliyun.com/nexus/content/repositories/google" }
+        maven { url "https://maven.aliyun.com/nexus/content/repositories/gradle-plugin" }
+        google()
+        mavenCentral()
+    }
+    dependencies {
+//        classpath "com.android.tools.lint:lint:$lintVersion"
+        classpath "com.android.tools.build:gradle:$gradlePluginVersion"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
+
+    }
+}
+plugins {
+    id("PluginWrapper") apply(false)
+//    id("twl_lint_plugin") apply(false)
+}
+allprojects {
+    repositories {
+        maven { url uri("${rootDir}/.local") }
+        maven { url "https://maven.aliyun.com/nexus/content/groups/public" }
+        maven { url "https://maven.aliyun.com/nexus/content/repositories/google" }
+        maven { url "https://maven.aliyun.com/nexus/content/repositories/gradle-plugin" }
+        google()
+        mavenCentral()
+    }
+
+    tasks.withType(JavaCompile).configureEach { task ->
+        task.options.encoding = 'UTF-8'
+        task.sourceCompatibility = JavaVersion.VERSION_1_8
+        task.targetCompatibility = JavaVersion.VERSION_1_8
+    }
+
+    tasks.withType(org.jetbrains.kotlin.gradle.dsl.KotlinJvmCompile).configureEach { task ->
+        task.kotlinOptions {
+            jvmTarget = '1.8'
+        }
+    }
+}
+
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}

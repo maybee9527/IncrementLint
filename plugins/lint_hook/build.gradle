@@ -1,0 +1,19 @@
+apply plugin: 'java'
+apply plugin: 'kotlin'
+sourceCompatibility = "1.8"
+targetCompatibility = "1.8"
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    compileOnly fileTree(dir: 'libs', include: ['*.jar'])
+    compileOnly gradleApi()
+    compileOnly localGroovy()
+    compileOnly "com.android.tools.build:gradle-api:$gradlePluginVersion"
+    implementation "com.android.tools.lint:lint:$lintVersion"
+}
+
+apply from: '../../maven-publish.gradle'

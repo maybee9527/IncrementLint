@@ -1,0 +1,98 @@
+/**
+ * 用于jar发布
+ * 在local.properties 中配置
+ * maven.username=仓库用户
+ * maven.password=仓库密码
+ */
+
+apply plugin: 'maven-publish'
+afterEvaluate { project ->
+    if (isAndroidComponents(project)) {
+        task androidSourcesJar(type: Jar) {
+            archiveClassifier = 'sources'
+            from android.sourceSets.main.java.source
+        }
+        artifacts {
+            archives androidSourcesJar
+        }
+    } else {
+        task javadocJar(type: Jar) {
+            archiveClassifier = 'javadoc'
+            from javadoc
+        }
+        task sourcesJar(type: Jar) {
+            archiveClassifier = 'sources'
+            from sourceSets.main.allSource
+        }
+        artifacts {
+            archives javadocJar, sourcesJar
+        }
+    }
+
+    publishing {
+        publications {
+            release(MavenPublication) {
+                groupId = POM_GROUP_ID
+                artifactId = POM_ARTIFACT_ID
+                version = POM_VERSION
+                println "groupId=" + POM_GROUP_ID + ",artifactId=" + POM_ARTIFACT_ID
+                //如果是war包填写components.web，如果是jar包填写components.java, aar components.release
+                from isAndroidComponents(project) ? components.release : components.java
+            }
+        }
+        repositories {
+            def mavenUsername = "pwd"
+            def mavenPassword = "pwd"
+//            maven {
+//                name = "release"
+//                url = ext.releaseUrl
+//                credentials {
+//                    username = mavenUsername
+//                    password = mavenPassword
+//                }
+//            }
+//            maven {
+//                name = "snapshot"
+//                url = ext.snapshotUrl
+//                credentials {
+//                    username = mavenUsername
+//                    password = mavenPassword
+//                }
+//            }
+            maven {
+                name = "project"
+                url = uri(getLocalRepoPath())
+            }
+        }
+    }
+}
+
+String getLocalRepoPath() {
+    File file = project.rootProject.file('local.properties');
+    //兼容Plugin的发布
+    if (!file.exists()) {
+        file = project.rootProject.file('../local.properties');
+    }
+    if (file.exists()) {
+        return file.getParent() + "/.local"
+    } else {
+        throw new GradleException("can not find local.properties")
+    }
+}
+
+def getPropertyFromLocalProperties(key) {
+    File file = project.rootProject.file('local.properties');
+    //兼容Plugin的发布
+    if (!file.exists()) {
+        file = project.rootProject.file('../local.properties');
+    }
+    if (file.exists()) {
+        Properties properties = new Properties()
+        properties.load(file.newDataInputStream())
+        return properties.getProperty(key)
+    }
+}
+
+boolean isAndroidComponents(Project project) {
+    return project.getPlugins().hasPlugin('com.android.application') || project.getPlugins().hasPlugin('com.android.library')
+}

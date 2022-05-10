@@ -1,0 +1,23 @@
+apply plugin: 'java-library'
+apply plugin: 'kotlin'
+
+jar {
+    manifest {
+        attributes('Lint-Registry-v2': 'com.example.lint.checks.SampleIssueRegistry')
+    }
+}
+apply from: '../../maven-publish.gradle'
+dependencies {
+    // For a description of the below dependencies, see the main project README
+    compileOnly "com.android.tools.lint:lint-api:$lintVersion"
+    // You typically don't need this one:
+    compileOnly "com.android.tools.lint:lint-checks:$lintVersion"
+    compileOnly "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
+
+    testImplementation "junit:junit:4.13.2"
+    testImplementation "com.android.tools.lint:lint:$lintVersion"
+    testImplementation "com.android.tools.lint:lint-tests:$lintVersion"
+}
+
+sourceCompatibility = "1.8"
+targetCompatibility = "1.8"

@@ -1,0 +1,3 @@
+/Users/tany/FileWork/0space_third/diffLint/app/src/main/java/com/twl/myapplication/Test.java
+/Users/tany/FileWork/0space_third/diffLint/app/src/main/java/com/twl/myapplication/longclassname/qwertyuiopasdfghjklzxcvbnmqwertyuiopasdfghj/DefghiApplication.java
+/Users/tany/FileWork/0space_third/diffLint/lib/src/main/java/com/exam/bean/base/BaseEntityAuto.java

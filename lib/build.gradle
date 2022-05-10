@@ -1,0 +1,29 @@
+apply plugin: 'com.android.library'
+android {
+    compileSdkVersion 29
+    defaultConfig {
+        minSdkVersion 16
+        targetSdkVersion 29
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+//    kotlinOptions {
+//        jvmTarget = '1.8'
+//    }
+    lintOptions {
+        abortOnError false
+        checkDependencies true
+        htmlReport true
+    }
+}
+
+/** Package the given lint checks library into this AAR  */
+dependencies {
+    implementation 'androidx.appcompat:appcompat:1.0.2'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    lintChecks "com.twl.lintplugin:lint_rules:$twlLintVersion"
+}
+sourceCompatibility = "1.8"
+targetCompatibility = "1.8"

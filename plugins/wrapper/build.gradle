@@ -1,0 +1,76 @@
+apply plugin: 'groovy'
+apply plugin: 'java-gradle-plugin'
+apply plugin: 'kotlin'
+apply plugin: 'project-report'
+
+
+//命令行：./gradlew  htmlDependencyReport
+sourceCompatibility = "1.8"
+targetCompatibility = "1.8"
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8
+    }
+}
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation gradleApi()
+    implementation localGroovy()
+    compileOnly "com.android.tools.build:gradle-api:$gradlePluginVersion"
+    implementation "com.android.tools.build:gradle:$gradlePluginVersion"
+    implementation "com.android.tools.lint:lint-api:$lintVersion"
+    implementation "com.android.tools.lint:lint-checks:$lintVersion"
+    implementation "com.android.tools.lint:lint:$lintVersion"
+
+    implementation ("com.android.tools.lint:lint-gradle:$lintVersion") {
+        exclude group: "org.codehaus.groovy"
+    }
+    compileOnly "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
+
+}
+
+
+
+gradlePlugin {
+    plugins {
+        version {
+            // 在 app 模块需要通过 id 引用这个插件
+            id = 'PluginWrapper'
+            // 实现这个插件的类的路径
+            implementationClass = 'com.lint.XLintPlugin'
+        }
+    }
+}
+
+task updateVersion {
+    doLast {
+        println updateVersion
+        def versionFileDir = projectDir.getAbsolutePath() + File.separatorChar + 'src/main/java/com/lint/Version.java'
+        println versionFileDir
+        def oldVersionStr = findOldVersionStr(versionFileDir);
+        println oldVersionStr
+        def newVersionValue = rootProject.ext.publishVersion
+        println "newVersion=$newVersionValue"
+        def newVersionStr = "   public static final String VERSION = \"" + newVersionValue + "\";"
+        def updatedContent = new File(versionFileDir).getText('UTF-8').replaceAll(oldVersionStr, newVersionStr);
+        new File(versionFileDir).write(updatedContent, 'UTF-8')
+    }
+}
+
+//读取旧的version字符串
+def findOldVersionStr(path) {
+    def readerString = "";
+    new File(path).withReader('UTF-8') { reader ->
+        reader.eachLine {
+            //读取一行，如果发现有"VERSION"字符，说明是我们要修改的那一行。
+            if (it.contains("VERSION")) {
+                //保存it到string，然后返回
+                readerString <<= it
+                return readerString
+            }
+        }
+        return readerString
+    }
+}
+
+project.tasks.compileJava.dependsOn updateVersion

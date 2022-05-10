@@ -1,0 +1,63 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+buildscript {
+    ext {
+//        kotlinVersion = '1.6.10'
+//        kotlinVersion = '1.4.31'
+        // Current release: Bumblebee / AGP 7.1
+//        gradlePluginVersion = '7.0.4'
+//        lintVersion = '30.0.4'
+        // Upcoming lint target: Chipmunk / AGP 7.2
+        // gradlePluginVersion = '7.2.0'
+        // lintVersion = '30.2.0'
+    }
+    repositories {
+        maven { url uri("../../.local") }
+        maven { url "https://maven.aliyun.com/nexus/content/groups/public" }
+        maven { url "https://maven.aliyun.com/nexus/content/repositories/google" }
+        maven { url "https://maven.aliyun.com/nexus/content/repositories/gradle-plugin" }
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        classpath ("com.android.tools.build:gradle:$gradlePluginVersion")
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
+    }
+}
+
+allprojects {
+    repositories {
+        maven { url uri("../../.local") }
+        maven { url "https://maven.aliyun.com/nexus/content/groups/public" }
+        maven { url "https://maven.aliyun.com/nexus/content/repositories/google" }
+        maven { url "https://maven.aliyun.com/nexus/content/repositories/gradle-plugin" }
+        google()
+        mavenCentral()
+    }
+}
+
+subprojects {
+    project.configurations.all {
+//        exclude group: 'org.jetbrains', module: 'annotations'//kotlin kaptGenerateStubsDebugKotlin 会使用到
+
+        resolutionStrategy.eachDependency { details ->
+            //room 2.3.0 || kit   统一版本
+//            if (details.requested.group == 'com.android.tools.lint') {
+////                details.useVersion "26.5.3"
+//                details.useVersion "$lint_version"
+//            }
+        }
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
+
+ext {
+//    lint_version='26.5.3'
+//    lint_version='27.2.0'
+}
+
+
+rootProject.ext.publishVersion = hasProperty('twl.publish') ? '0.5.14' : '0.1.0'

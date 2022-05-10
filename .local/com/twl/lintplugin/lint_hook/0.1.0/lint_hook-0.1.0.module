@@ -1,0 +1,90 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "com.twl.lintplugin",
+    "module": "lint_hook",
+    "version": "0.1.0",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "6.8",
+      "buildId": "q6qitnookna7fcliglsewagule"
+    }
+  },
+  "variants": [
+    {
+      "name": "apiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 8,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api",
+        "org.jetbrains.kotlin.localToProject": "public",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib-jdk8",
+          "version": {
+            "requires": "1.4.31"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "lint_hook-0.1.0.jar",
+          "url": "lint_hook-0.1.0.jar",
+          "size": 79014,
+          "sha512": "d48e36de8d7b66e5fb0983b6641378a47ccfe145818acc17f2b094c1041943ee02908a12eac4b710114cd49edc9aaf7d527ef99ee5d8e5bb15153ceb46548a2e",
+          "sha256": "ff6712e1be4c719ce5de90727e9b8c45d39441f105469f0493e436df291a9187",
+          "sha1": "88a3fd20ae1a1d01cd8e7ae9a0815800f7aa7f11",
+          "md5": "b2160782df27f8a3e6865a952b54adf4"
+        }
+      ]
+    },
+    {
+      "name": "runtimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 8,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.localToProject": "public",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "dependencies": [
+        {
+          "group": "com.android.tools.lint",
+          "module": "lint",
+          "version": {
+            "requires": "30.0.4"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib-jdk8",
+          "version": {
+            "requires": "1.4.31"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "lint_hook-0.1.0.jar",
+          "url": "lint_hook-0.1.0.jar",
+          "size": 79014,
+          "sha512": "d48e36de8d7b66e5fb0983b6641378a47ccfe145818acc17f2b094c1041943ee02908a12eac4b710114cd49edc9aaf7d527ef99ee5d8e5bb15153ceb46548a2e",
+          "sha256": "ff6712e1be4c719ce5de90727e9b8c45d39441f105469f0493e436df291a9187",
+          "sha1": "88a3fd20ae1a1d01cd8e7ae9a0815800f7aa7f11",
+          "md5": "b2160782df27f8a3e6865a952b54adf4"
+        }
+      ]
+    }
+  ]
+}
